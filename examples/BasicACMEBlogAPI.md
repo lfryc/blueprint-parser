@@ -5,7 +5,7 @@ Host: http://blog.acme.com
 Welcome to the **ACME Blog** API. This API provides access to the **ACME Blog** service.
 
 # GET /posts{/id}
-Retrieves **ACME Blog** posts. 
+Retrieves **ACME Blog** posts.
 
 ## Parameters
 + id = 1234 (number) ... Id of a post to retrieve. If there is no id specified all **ACME Blog** posts are returned.
@@ -16,8 +16,8 @@ Retrieves **ACME Blog** posts.
 ## Response 200 (application/json)
 Array of **ACME Blog** posts. Might contain just one item if there is a valid @id specified. Null if there are no posts.
 
-+ author (string) ... Name of **ACME Blog** author.  
-+ title (string) ... Title of the blog post.  
++ author (string) ... Name of **ACME Blog** author.
++ title (string) ... Title of the blog post.
 + body (string) ... Blog post body.
 
 	[
@@ -25,7 +25,7 @@ Array of **ACME Blog** posts. Might contain just one item if there is a valid @i
 		    "_id" : "1234",
 		    "author" : "Jakub Nesetril",
 		    "body" : "This is a blog entry",
-		    "title" : "This is a blog post title",		    
+		    "title" : "This is a blog post title",
 		    "comments" : [
 		    	{
 		            "body" : "This is my comment",
@@ -64,7 +64,7 @@ Creates a new **ACME Blog** posts. Post can be created either as a copy of an ex
 
 
 # /posts/{id}/comments
-Comments for **ACME Blog** post of a given @id. 
+Comments for **ACME Blog** post of a given @id.
 
 ## Parameters
 + id = 1234 (number) ... Id of a **ACME Blog** post.
@@ -73,9 +73,9 @@ Comments for **ACME Blog** post of a given @id.
 Retrieves all comments for the given post.
 
 ### Response 200 (application/json)
-Returns an array of post comments. 
+Returns an array of post comments.
 
-	[	
+	[
 		{
 			"body" : "This is my comment",
 			"author" : "Jakub Nesetril"

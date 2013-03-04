@@ -9,7 +9,7 @@ The following is a section of resources related to the shopping cart.
 
 ## GET /shopping-cart
 List products added into your shopping-cart. (comment block again in Markdown)
-### Response 200 (application/json) 
+### Response 200 (application/json)
 	{ "items": [
 	  { "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
 	] }

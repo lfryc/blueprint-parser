@@ -1,7 +1,7 @@
 HOST: https://portal.vn.teslamotors.com
 
 # Tesla Model S REST API
-This is unofficial documentation of the Tesla Model S REST API used by the iOS and Android apps. It features functionality to monitor and control the Model S remotely. 
+This is unofficial documentation of the Tesla Model S REST API used by the iOS and Android apps. It features functionality to monitor and control the Model S remotely.
 
 # Authentication Flow
 These endpoints handle login and session management
@@ -18,9 +18,9 @@ Returns the login form. Sets a *_s_portal_session* cookie for the session
 #### Body
 
 	{}
-	
+
 ## POST /login
-Performs the login. Takes in an plain text email and password, matching the owner's login from http://teslamotors.com/mytesla. 
+Performs the login. Takes in an plain text email and password, matching the owner's login from http://teslamotors.com/mytesla.
 Sets a *user_credentials* cookie that expires in 3 months, which is passed along with all future requests to authenticate the user.
 302 redirects back to a dummy welcome page. This page is ignored by the smartphone app and can be ignored by your API client.
 
@@ -28,7 +28,7 @@ Sets a *user_credentials* cookie that expires in 3 months, which is passed along
 
 	user_session%5Bemail%5D=string&user_session%5Bpassword%5D=string
 
-### Response 302 
+### Response 302
 
 #### Headers
 
@@ -236,8 +236,8 @@ Returns the vehicle's physical state, such as which doors are open.
 
 
 # Vehicle Commands
- 
-	
+
+
 ## GET /vehicles/{id}/command/charge_port_door_open
 Open the charge port
 
@@ -267,7 +267,7 @@ Set the charge mode to max-range.
 	  "reason": "failure reason"
 	}
 
-## GET /vehicles/{id}/command/charge_start 
+## GET /vehicles/{id}/command/charge_start
 Start charging
 
 ### Response 200 (application/json)
@@ -291,7 +291,7 @@ Stop charging
 Flash the lights once
 
 ### Response 200 (application/json)
-	
+
 	{
 	  "result": false,
 	  "reason": "failure reason"
@@ -361,7 +361,7 @@ Stop HVAC
 Panoramic roof control
 
 ### Parameters
-+ state (string) ... State may be "open", "close", "comfort", or "vent". 
++ state (string) ... State may be "open", "close", "comfort", or "vent".
 
 ### Response 200 (application/json)
 	{
