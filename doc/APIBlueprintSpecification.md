@@ -36,7 +36,7 @@ Author: z@apiary.io
 ## 1. Introduction [Introduction]
 This documents is full specification of [Apiary.io](http://apiary.io)'s API Blueprint Language. API Blueprint Language is a domain-specific language in which you can describe any modern [REST](http://www.restapitutorial.com) or [Hypermedia]() API.
 
-The language is written for the **convenience of business users**, not only back-end developers.
+The language is written for the **convenience of business users**, not just back-end developers.
 While the language is simple enough to be used by anybody with the elementary programming skills it is recommended to go through [Tutorial](http://apiary.io/blueprint) first before continuing with the full specification.
 
 Also note that it is not in scope of this document to discuss any of the Apiary.io tools such as [Mock Server](http://apiary.io) or [Proxy](http://apiary.io) although some of it may be mentioned in this document.
@@ -49,6 +49,10 @@ API Blueprint Language is essentially a superset of John Gruber's [Markdown](htt
 The language is not Turing-complete but it has a limited branching support
 
 Before you will proceed with this document please make yourself familiar with the basic [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax) as well as with the Metadata and Automatic Cross-References sections of [MultiMarkdown Syntax](https://github.com/fletcher/MultiMarkdown/blob/master/Documentation/MultiMarkdown%20User%27s%20Guide.md#multimarkdown-syntax-guide).
+
+The **API Blueprint Language** is using some **Markdown constructs**, such as headers, lists or pre-formatted blocks, to **define** and **describe** your **API**. These constructs are usually recognized by reserved names, expected formatting and / or by specific locations.
+
+In addition to usual Markdown elements you can use HTML-style **comments** (`<!--` & `-->`) to comment out a block of blueprint or add additional notes.
 
 ---
 
@@ -72,9 +76,10 @@ Currently reserved keywords are:
 * Request
 * Response
 * Headers
+* Parameters
 * Body
 * Schema
-* \+ HTTP Methods
+* \+ HTTP method names
 * \+ URIs
 
 ### 3.3. Nested sections [NestedSections]
@@ -92,6 +97,8 @@ Example:
 	... Section B content...
 
 What section can be nested and where depends on the actual section as described in relevant [API Blueprint Document Structure](DocumentStructure) section's entry.
+
+Note that parser **strictly controls nesting** (header levels).
 
 ### 3.4. Other Markdown headers [OtherMarkdownHeaders]
 You are free to use any Markdown header of your liking anywhere as long as it does not clash with [Reserved Section Names](ReservedSectionNames). It is considered a good practice to keep your own header level nested to your actual section.
@@ -186,7 +193,7 @@ This section is **recognized** by the **"Parameters"** reserved **keyword** writ
 
 This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent general endpoint's parameter description. The rest of this section is formatted per URI parameter as follows:
 
-	@<parameter name> [= <default value>] [(<type>)] ... Markdown-formatted content
+	+ <parameter name> [= <default value>] [(<type>)] ... Markdown-formatted content
 
 Where:
 
@@ -198,19 +205,21 @@ Example:
 
 	# GET /posts{/id}
 	## Parameters
-	@id ... Id of a post.
+	+ id ... Id of a post.
 
 	-- or --
 
-	@id = 1234 ... Id of a post.
+	+ id = 1234 ... Id of a post.
 
 	-- or --
 
-	@id (number) ... Id of a post.
+	+ id (number) ... Id of a post.
 
 	-- or --
 
-	@id = 1234 (number) ... Id of a post.
+	+ id = 1234 (number) ... Id of a post.
+
+Note that parameters description is used for documentation purposes only.
 
 #### 4.3.2. Method Section [MethodSection]
 **Required** if there is no HTTP method specified in [Endpoint Section][EndpointSection]'s header. **Illegal** otherwise. [HTTP Request Method](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) available on this endpoint.
@@ -224,7 +233,7 @@ One [Endpoint Section][EndpointSection] can contain **one or more** different Me
 Example:
 
 	# /posts{/id}
-	## Prameters
+	## Parameters
 	...
 
 	## GET
@@ -405,7 +414,7 @@ Prior to an [asset][DocumentAssets] content this section can contain **further M
 
 Additionally For **application/json** media types the section can also contain asset's field description as follows:
 
-	@.<parameter name> [= <default value>] [(<type>)] ... Markdown-formatted content
+	+ <parameter name> [= <default value>] [(<type>)] ... Markdown-formatted content
 
 See Endpoint's [Parameters Section][EndpointParametersSection] for further details.
 
