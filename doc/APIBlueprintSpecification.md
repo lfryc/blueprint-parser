@@ -425,7 +425,7 @@ Example:
 		X-My-Payload-Size: 42
 
 	## Body
-	@.message (string) ... A message from **ACME Blog** API.
+	+ message (string) ... A message from **ACME Blog** API.
 
 		{ "message" : "Hello World." }
 
