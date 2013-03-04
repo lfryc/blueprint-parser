@@ -82,27 +82,24 @@ Returns the state of charge in the battery.
 
 ### Response 200 (application/json)
 
-#### Parameters
-+ charging_state = "Complete" ... "Charging", ??
-+ charge_to_max_range = false (bool) ... current std/max-range setting
-+ max_range_charge_counter = 0 (number)
-+ fast_charger_present = false (bool) ... connected to Supercharger?
-+ battery_range = 239.02 (number) ... rated miles
-+ est_battery_range = 155.79 (number) ... range estimated from recent driving
-+ ideal_battery_range = 275.09 (number) ... ideal miles
-+ battery_level = 91 (number) ... integer charge percentage
-+ battery_current = -0.6 (number) ... current flowing into battery
-+ charge_starting_range = null
-+ charge_starting_soc = null
-+ charger_voltage = 0 (number) ... only has value while charging
-+ charger_pilot_current = 40 (number) ... max current allowed by charger & adapter
-+ charger_actual_current = 0 (number) ... current actually being drawn
-+ charger_power = 0 (number) ... kW (rounded down) of charger
-+ time_to_full_charge = 0 (number) ... valid only while charging
-+ charge_rate = -1.0 (number) ... float mi/hr charging or -1 if not charging
-+ charge_port_door_open = true (bool)
-
 #### Body
+
++ charging_state (string) ... "Charging", ??
++ charge_to_max_range (bool) ... current std/max-range setting
++ max_range_charge_counter (number)
++ fast_charger_present (bool) ... connected to Supercharger?
++ battery_range (number) ... rated miles
++ est_battery_range (number) ... range estimated from recent driving
++ ideal_battery_range (number) ... ideal miles
++ battery_level (number) ... integer charge percentage
++ battery_current (number) ... current flowing into battery
++ charger_voltage (number) ... only has value while charging
++ charger_pilot_current ... max current allowed by charger & adapter
++ charger_actual_current (number) ... current actually being drawn
++ charger_power (number) ... kW (rounded down) of charger
++ time_to_full_charge (number) ... valid only while charging
++ charge_rate (number) ... float mi/hr charging or -1 if not charging
++ charge_port_door_open (bool)
 
 	{
 	    "charging_state": "Complete",
@@ -130,17 +127,16 @@ Returns the current temperature and climate control state.
 
 ### Response 200 (application/json)
 
-#### Parameters
-+ inside_temp = 17.0 (number) ... degC inside car
-+ outside_temp = 9.5 (number) ... degC outside car or null
-+ driver_temp_setting = 22.6 (number) ... degC of driver temperature setpoint
-+ passenger_temp_setting = 22.6 (number) ... degC of passenger temperature setpoint
-+ is_auto_conditioning_on = false (bool) ... apparently even if on
-+ is_front_defroster_on = (number) ... null or boolean as integer?
-+ is_rear_defroster_on = (bool)
-+ fan_status = 0 ... fan speed 0-6 or null
-
 #### Body
+
++ inside_temp (number) ... degC inside car
++ outside_temp (number) ... degC outside car or null
++ driver_temp_setting (number) ... degC of driver temperature setpoint
++ passenger_temp_setting (number) ... degC of passenger temperature setpoint
++ is_auto_conditioning_on (bool) ... apparently even if on
++ is_front_defroster_on ... null or boolean as integer?
++ is_rear_defroster_on
++ fan_status ... fan speed 0-6 or null
 
 	{
 	    "inside_temp": 17.0,
@@ -159,15 +155,14 @@ Returns the driving and position state of the vehicle.
 
 ### Response 200 (application/json)
 
-#### Parameters
-+ shift_state = null
-+ speed = null
-+ latitude = 33.794839 (number) ... degrees N of equator
-+ longitude = 84.401593 (number) ... degrees W of the prime meridian
-+ heading = 4 (number) ... integer compass heading, 0-359
-+ gps_as_of = 1359863204 (number) ... Unix timestamp of GPS fix
-
 #### Body
+
++ shift_state
++ speed
++ latitude (number) ... degrees N of equator
++ longitude (number) ... degrees W of the prime meridian
++ heading (number) ... integer compass heading, 0-359
++ gps_as_of (number) ... Unix timestamp of GPS fix
 
 	{
 	    "shift_state": null,
@@ -196,24 +191,23 @@ Returns the vehicle's physical state, such as which doors are open.
 
 ### Response 200 (application/json)
 
-#### Parameters
-+ df = false (bool) ... driver's side front door open
-+ dr = false (bool) ... driver's side rear door open
-+ pf = false (bool) ... passenger's side front door open
-+ pr = false (bool) ... passenger's side rear door open
-+ ft = false (bool) ... front trunk is open
-+ rt = false (bool) ... rear trunk is open
-+ car_verson = "1.19.42" (string) ... car firmware version
-+ locked = true (bool) ... car is locked
-+ sun_roof_installed = false (bool) ... panoramic roof is installed
-+ sun_roof_state = "unknown" (string)
-+ sun_roof_percent_open = 0 (number) ... null if not installed
-+ dark_rims = false (bool) ... gray rims installed
-+ wheel_type = "Base19" (string) ... wheel type installed
-+ has_spoiler = false (bool) ... spoiler is installed
-+ roof_color = "Colored" ... "None" for panoramic roof
-
 #### Body
+
++ df (bool) ... driver's side front door open
++ dr (bool) ... driver's side rear door open
++ pf (bool) ... passenger's side front door open
++ pr (bool) ... passenger's side rear door open
++ ft (bool) ... front trunk is open
++ rt (bool) ... rear trunk is open
++ car_verson (string) ... car firmware version
++ locked (bool) ... car is locked
++ sun_roof_installed (bool) ... panoramic roof is installed
++ sun_roof_state (string)
++ sun_roof_percent_open (number) ... null if not installed
++ dark_rims (bool) ... gray rims installed
++ wheel_type (string) ... wheel type installed
++ has_spoiler (bool) ... spoiler is installed
++ roof_color ... "None" for panoramic roof
 
 	{
 	    "df": false,
@@ -233,7 +227,6 @@ Returns the vehicle's physical state, such as which doors are open.
 	    "roof_color": "Colored",
 	    "perf_config": "Base"
 	}
-
 
 # Vehicle Commands
 
