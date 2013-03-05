@@ -13,10 +13,8 @@ Returns the login form. Sets a *_s_portal_session* cookie for the session
 ### Response 200
 
 #### Headers
-	Set-Cookie: _s_portal_session={cookie}; path=/; secure; HttpOnly
 
-#### Body
-	{}
+	Set-Cookie: _s_portal_session={cookie}; path=/; secure; HttpOnly
 
 
 ## POST /login
