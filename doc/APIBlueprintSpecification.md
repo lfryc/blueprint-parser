@@ -27,30 +27,28 @@ Author: z@apiary.io
 	4. [Grouping endpoints][EndpointGroups]
 5. [Payloads][Payloads]
 	1. [Headers Section][PayloadHeadersSection]
-	2. [Body Section][PayloadBodySection]
-	3. [Schema Section][PayloadSchemaSection]
+	2. [Parameters Section][PayloadParametersSection]
+	3. [Body Section][PayloadBodySection]
+	4. [Schema Section][PayloadSchemaSection]
 6. [Assets][DocumentAssets]
 	1. [Inline Asset][InlineDocumentAsset]
 ---
 
 ## 1. Introduction [Introduction]
-This documents is full specification of [Apiary.io](http://apiary.io)'s API Blueprint Language. API Blueprint Language is a domain-specific language in which you can describe any modern [REST](http://www.restapitutorial.com) or [Hypermedia]() API.
+This documents is full specification of [Apiary.io](http://apiary.io)'s API Blueprint Language. API Blueprint Language is a domain-specific language in which you can describe any modern [REST](http://www.restapitutorial.com) or [Hypermedia]() API. The purpose of this language is to design and create a wireframe of your API as well as its documentation.
 
-The language is written for the **convenience of business users**, not just back-end developers.
 While the language is simple enough to be used by anybody with the elementary programming skills it is recommended to go through [Tutorial](http://apiary.io/blueprint) first before continuing with the full specification.
 
-Also note that it is not in scope of this document to discuss any of the Apiary.io tools such as [Mock Server](http://apiary.io) or [Proxy](http://apiary.io) although some of it may be mentioned in this document.
+Also note that it is not in scope of this document to discuss any of the Apiary.io tools such as [Mock Server](http://apiary.io), [Proxy](http://apiary.io) or others. However some of them may be mentioned by this document.
 
 ---
 
 ## 2. API Blueprint Language [Language]
 API Blueprint Language is essentially a superset of John Gruber's [Markdown](http://daringfireball.net/projects/markdown). It inherits few major [MultiMarkdown](http://fletcherpenney.net/multimarkdown) features extending Markdown's referencing and MultiMarkdown's cross-referencing.
 
-The language is not Turing-complete but it has a limited branching support
-
 Before you will proceed with this document please make yourself familiar with the basic [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax) as well as with the Metadata and Automatic Cross-References sections of [MultiMarkdown Syntax](https://github.com/fletcher/MultiMarkdown/blob/master/Documentation/MultiMarkdown%20User%27s%20Guide.md#multimarkdown-syntax-guide).
 
-The **API Blueprint Language** is using some **Markdown constructs**, such as headers, lists or pre-formatted blocks, to **define** and **describe** your **API**. These constructs are usually recognized by reserved names, expected formatting and / or by specific locations.
+The **API Blueprint Language** is using some **Markdown constructs**, such as headers, lists or pre-formatted blocks, to **define** and **describe** your **API**. These constructs are usually recognized by reserved names, expected formatting and / or by their specific locations.
 
 In addition to usual Markdown elements you can use HTML-style **comments** (`<!--` & `-->`) to comment out a block of blueprint or add additional notes.
 
@@ -66,10 +64,10 @@ A section represents a logical unit of your API Blueprint. For example an API ov
 
 Section are recognized by a **reserved section name** or an **URI template** in **Markdown header**. Only **atx-style** headers  (e.g. `# Header`) are considered.
 
-Each sections has strictly defined name, meaning and content. Anything between a Section Markdown header and another such a header at the same level is considered to be a section. This implies you **must avoid** using reserved section names in other Markdown headers.
+Each sections has strictly defined name, meaning and content. Anything between a Section Markdown header and another such a header at the same level is considered to be a section. This implies you **must avoid** using reserved section names – **keywords** in other Markdown headers.
 
 ### 3.2. Reserved Section Names [ReservedSectionNames]
-Reserved sections names are listed in [API Blueprint Document Structure](DocumentStructure). Note that some section names can contain variable components such as identifiers or modifiers. See relevant section's entry to find out more about how section name is built.
+Reserved sections and their meanings in [API Blueprint Document Structure](DocumentStructure). Note that some section names can contain variable components such as identifiers or other modifiers. See relevant section's entry to find out more about how section name is built.
 
 Currently reserved keywords are:
 
@@ -104,7 +102,7 @@ Note that parser **strictly controls nesting** (header levels).
 You are free to use any Markdown header of your liking anywhere as long as it does not clash with [Reserved Section Names](ReservedSectionNames). It is considered a good practice to keep your own header level nested to your actual section.
 
 ### 3.5. Special Sections [SpecialSections]
-There are **two additional** sections of a Blueprint Document to sections represented by a [Reserved Name Sections][Sections]: A [Metadata Section][MetadataSection] and the [API Name & Overview][APINameOverviewSection]. These will be discussed in the [API Blueprint Document Structure][DocumentStructure]
+There are **two additional** sections of a Blueprint Document to sections represented by a [Reserved Name Sections][Sections]: A [Metadata Section][MetadataSection] and the [API Name & Overview][APINameOverviewSection]. These are discussed in the [API Blueprint Document Structure][DocumentStructure]
 
 ---
 
@@ -145,7 +143,7 @@ This section is **recognized** as [MultiMarkdown' Metadata](https://github.com/f
 
 Example:
 
-	HOST: http://blog.acme.com
+	Host: http://blog.acme.com
 	Format: 1A
 
 ### 4.2. API Name & Overview Section [APINameOverviewSection]
@@ -191,7 +189,7 @@ This section may include nested [Headers Section][HeadersSection].
 
 This section is **recognized** by the **"Parameters"** reserved **keyword** written in an atx-style Markdown header. This section must be nested under an [Endpoint Section][EndpointSection].
 
-This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent general endpoint's parameter description. The rest of this section is formatted per URI parameter as follows:
+This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent general endpoint's parameter description. The rest of this section is formatted as follows:
 
 	+ <parameter name> [= <default value>] [(<type>)] ... Markdown-formatted content
 
@@ -200,6 +198,8 @@ Where:
 * `<parameter name>` is a parameter name as written in [Endpoint Section][EndpointSection]'s URI (e.g. "id").
 * `<default value>` is **optional** parameter default or example value (e.g. 1234).
 * `<type>` is **optional** parameter type as expected by your API (e.g. "number").
+
+You do not have to enumerate every parameters in the URI.
 
 Example:
 
@@ -251,19 +251,19 @@ This section may include nested [Headers Section][HeadersSection].
 #### 4.3.3. Request Section [EndpointRequestSection]
 **Optional**. Description of exactly *one* HTTP request including expected HTTP body.
 
-This section is **recognized** by the **"Request"** reserved **keyword** written in an atx-style Markdown header. The **"Request"** can be preceded by an arbitrary string representing user identifier of this request. In case HTTP body is specified the **"Request"** keyword should be followed by HTTP Body [Media Type (MIME type)](http://en.wikipedia.org/wiki/Internet_media_type).
+This section is **recognized** by the **"Request"** reserved **keyword** written in an atx-style Markdown header. The **"Request"** can be followed by an arbitrary string representing user identifier of this request. This identifier must not be enclosed in brackets. In case HTTP body is specified the **"Request"** keyword (and possible identifier) should be followed by HTTP Body [Media Type (MIME type)](http://en.wikipedia.org/wiki/Internet_media_type).
 
 Full Request section header syntax is as follows:
 
-	# [<identifier>] Request [(<Media Type>)]
+	# Request [<identifier>] [(<Media Type>)]
 
 This section **must** be nested under a [Method Section][MethodSection] unless a HTTP method is specified in the [Endpoint Sections][EndpointSection]'s header. In that case this section must be nested under the [Endpoint Section][EndpointSection].
 
-The content of this section is a [Payload][Payloads] carried by this request. See [Payloads Documentation][Payloads] for details on how to specify the content of this request.
+This section is a specific type of [Payload][Payloads] carried by this request. See [Payloads Documentation][Payloads] for details on how to specify the content of this request.
 
 If a Media Type is specified in this sections' header it is also expected as a `Content-Type` header of this request.
 
-One [Endpoint Section][EndpointSection] or [Method Section][MethodSection] can contain **one or more different** Request Sections.
+One [Endpoint Section][EndpointSection] or [Method Section][MethodSection] can contain **one or more different** (that is with different identifier) Request Sections.
 
 Example:
 
@@ -286,11 +286,11 @@ Full Response section header syntax is as follows:
 
 This section **must** be nested under a [Method Section][MethodSection] unless a HTTP method is specified in the [Endpoint Sections][EndpointSection]'s header. In that case this section must be nested under the [Endpoint Section][EndpointSection].
 
-The content of this section is a [Payload][Payloads] carried by this response. See [Payload Documentation][Payloads] for details on how to specify the content of this response.
+This section is a specific type of [Payload][Payloads] carried by this response. See [Payload Documentation][Payloads] for details on how to specify the content of this response.
 
 If a Media Type is specified in this sections' header it is also send as a `Content-Type` header of this response.
 
-One [Endpoint Section][EndpointSection] or [Method Section][MethodSection] can contain **one or more different** Response Sections.
+One [Endpoint Section][EndpointSection] or [Method Section][MethodSection] can contain **one or more different** (that is with different HTTP Status code) Response Sections.
 
 Example:
 
@@ -304,7 +304,7 @@ This section is **recognized** by the **"Headers"** reserved **keyword** written
 
 Full Header section header syntax is as follows:
 
-	# [[<identifier>] Request | Response <status code>] Headers
+	# [Request [<identifier>] | Response <status code>] Headers
 
 This section must be nested under one of the following sections:
 
@@ -369,9 +369,9 @@ Example:
 ---
 
 ## 5. Payloads [Payloads]
-An payload is essentially data expected in a HTTP request or send in a HTTP response. Payload consists of meta information in form of HTTP headers and content received or send in a HTTP body.
+An payload is essentially data expected in a HTTP request or send in a HTTP response. Payload consists of meta information in form of HTTP headers and content received or send in a HTTP body. Furthermore API Blueprint Payload can include its description as well as discussion of its parameters.
 
-Note that a payload in the sense used in this document is a subset of [HTTP Payload](http://www.w3.org/TR/di-gloss/) as there might be additional metadata (HTTP headers) specified outside of the scope of the payload that will form up the final complete HTTP Payload.
+Note that the term "payload" (excluding its description) as used in this document is a subset of [HTTP Payload](http://www.w3.org/TR/di-gloss/). There might be additional metadata (HTTP headers) specified outside of the scope of the payload that will form up the final HTTP Payload.
 
 A Payload has **always** its Media Type associated. Payload's Media type represents a metadata that is always received or send in form of an HTTP `Content-Type` header.
 
@@ -379,7 +379,7 @@ Payload section header syntax is follows:
 
 	# <Payload Identifier> (<Media Type>)
 
-Content of a payload is formed from up to three *nested* sections: **Headers** Section, **Body** Section and **Schema** section.
+Content of a payload is formed from up to four *nested* sections: **Headers** Section, **Parameters** Section, **Body** Section and **Schema** section.
 
 If **no section** is specified content of the payload section is treated as [PayloadBodySection][PayloadBodySection].
 
@@ -389,6 +389,9 @@ Example:
 	## Headers
 		X-My-Payload-Size: 42
 
+	## Parameters
+	+ message ... A message.
+
 	## Body
 		{ ... }
 
@@ -397,22 +400,24 @@ Example:
 
 
 ### 5.1. Headers Section [PayloadHeadersSection]
-**Optional**. Specifies the metadata in form of HTTP headers to be received or send with the payload.
+**Optional**. Specifies the metadata in form of HTTP headers to be received or send with the payload. Content of this section is subject to additional formatting.
 
 This section is **recognized** by the **"Headers"** reserved **keyword** written in an atx-style Markdown header. No further keywords or modifiers are expected.
 
 See to [Endpoint's Headers Section][HeadersSection] for this section's syntax definition.
 
-### 5.2. Body Section [PayloadBodySection]
-**Required**. Specifies content of the payload received or send in the form of HTTP body.
+Example:
 
-This section is **recognized** by the **"Body"** reserved **keyword** written in an atx-style Markdown header.
+	# MyPayload (application/json)
+	## Headers
+		X-My-Payload-Size: 42
 
-This section represents an API Blueprint Document [Asset][DocumentAssets].
+### 5.2. Parameters Section [PayloadParametersSection]
+**Optional** for **application/json** media type. Description of [Payload][Payloads]'s parameters. Content of this section is subject to additional formatting.
 
-Prior to an [asset][DocumentAssets] content this section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent assets's description.
+This section is **recognized** by the **"Parameters"** reserved **keyword** written in an atx-style Markdown header.
 
-Additionally For **application/json** media types the section can also contain asset's field description as follows:
+This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent general payload parameters description. The rest of this section is formatted as follows:
 
 	+ <parameter name> [= <default value>] [(<type>)] ... Markdown-formatted content
 
@@ -424,13 +429,29 @@ Example:
 	## Headers
 		X-My-Payload-Size: 42
 
-	## Body
-	+ message (string) ... A message from **ACME Blog** API.
+	## Parameters
+		+ message (string) ... A message from **ACME Blog** API.
 
+### 5.3. Body Section [PayloadBodySection]
+**Optional**. Specifies content of the payload received or send in the form of HTTP body.
+
+This section is **recognized** by the **"Body"** reserved **keyword** written in an atx-style Markdown header.
+
+This section represents an API Blueprint Document [Asset][DocumentAssets].
+
+Example:
+
+	# MyPayload (application/json)
+	## Headers
+		X-My-Payload-Size: 42
+
+	## Parameters
+		+ message (string) ... A message from **ACME Blog** API.
+
+	## Body
 		{ "message" : "Hello World." }
 
-
-### 5.3. Schema Section [PayloadSchemaSection]
+### 5.4. Schema Section [PayloadSchemaSection]
 **Optional**. Where applicable specifies a schema used to validate this payload's body content.
 
 This section is **recognized** by the **"Schema"** reserved **keyword** written in an atx-style Markdown header.
