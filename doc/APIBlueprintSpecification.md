@@ -71,12 +71,12 @@ Reserved sections and their meanings in [API Blueprint Document Structure](Docum
 
 Currently reserved keywords are:
 
-* Request
-* Response
-* Headers
-* Parameters
-* Body
-* Schema
+* **Request**
+* **Response**
+* **Headers**
+* **Parameters**
+* **Body**
+* **Schema**
 * \+ HTTP method names
 * \+ URIs
 
@@ -139,6 +139,8 @@ An example of a possible API Blueprint Document layout:
 
 This section is **recognized** as [MultiMarkdown' Metadata](https://github.com/fletcher/MultiMarkdown/blob/master/Documentation/MultiMarkdown%20User%27s%20Guide.md#metadata). It starts from the beginning of the document and ends with a first Markdown header.
 
+This section **does not include** any **other sections**.
+
 #### Supported Metadata
 * **`Host` (or `HOST`)** *(optional)* ... API server hostname.
 * **`Format`** *(optional)* ... API Blueprint version. Leave blank for legacy format. Use `1A` for actual version.
@@ -148,13 +150,14 @@ Example:
 	Host: http://blog.acme.com
 	Format: 1A
 
-
 ### 4.2. API Name & Overview Section [APINameOverviewSection]
 **Required**. Name of the API in the form of a Markdown header.
 
 This section is **recognized** as the **first** Markdown header in your document its name is considered to be your **API name**.
 
 This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent the API Overview.
+
+This section **does not include** any **other sections**.
 
 Example:
 
@@ -165,13 +168,22 @@ Example:
 	# Basic ACME Blog API
 	Welcome to the **ACME Blog** API. This API provides access to the **ACME Blog** service.
 
-
 ### 4.3. Resource Section [ResourceSection]
 **Optional**. Definition of exactly *one* API [Resource](http://www.w3.org/TR/di-gloss/#def-resource). Your blueprint document can contain multiple sections for the same resource - URI as long as their HTTP methods differ.
 
 This section is **recognized** by an [RFC 6570 URI template](http://tools.ietf.org/html/rfc6570) written in an atx-style Markdown header. Optionally the header can contain one leading [HTTP Request Method](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods).
 
 This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent Resource description.
+
+This section **must include** at least one [Response Section][ResourceResponseSection] **or**, if no **HTTP Request Method** is specified, this section **must include** at least one [Method Section][ResourceMethodSection].
+
+In addition to any mandatory nested sections this section **may include** following additional nested sections:
+ 
+* [Parameters Section][ResourceParametersSection]
+* [Method Section][ResourceMethodSection],  if **no** HTTP Request Method is specified
+* [Request Section][ResourceRequestSection], if a HTTP Request Method is specified
+* [Response Section][ResourceResponseSection], if a HTTP Request Method is specified
+* [Headers Section][ResourceHeadersSection]
 
 Example:
 
@@ -185,8 +197,6 @@ Example:
 
 	# /posts
 
-This section may include nested [Headers Section][ResourceHeadersSection].
-
 #### 4.3.1. Parameters Section [ResourceParametersSection]
 **Optional**. Description of [Resource Section][ResourceSection]'s URI parameters. Content of this section is subject to additional formatting.
 
@@ -194,15 +204,19 @@ This section is **recognized** by the **"Parameters"** reserved **keyword** writ
 
 This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent general Resource URI parameter description. The rest of this section is formatted as follows:
 
-	+ <parameter name> [= <default value>] [(<type>)] ... Markdown-formatted content
+	+ <parameter name> [= <default value>] [<type> [,(required | optional)]] ... Markdown-formatted content
 
 Where:
 
 * `<parameter name>` is a parameter name as written in [Resource Section][ResourceSection]'s URI (e.g. "id").
 * `<default value>` is **optional** parameter default or example value (e.g. 1234).
 * `<type>` is **optional** parameter type as expected by your API (e.g. "number").
+* `required` is **optional** specifier of a required parameter
+* `optional` is **optional** specifier of a optional parameter
 
-You do not have to enumerate every parameters in the URI.
+This section does not have to enumerate every URI parameter. It **should not** however contain parameter that is not specified in URI.
+
+This section **does not include** any **other sections**.
 
 Example:
 
@@ -227,9 +241,16 @@ Note that parameters description is used for documentation purposes only.
 #### 4.3.2. Method Section [ResourceMethodSection]
 **Required** if there is no HTTP method specified in [Resource Section][ResourceSection]'s header. **Illegal** otherwise. [HTTP Request Method](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) available for this Resource.
 
-This section is **recognized** by one of the [HTTP Request Methods](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) written in capitals as an atx-style Markdown header. This section must be nested under an [Resource Section][ResourceSection].
+This section is **recognized** by one of the [HTTP Request Methods](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) written in capitals as an atx-style Markdown header.
 
 This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent this Resource method description.
+
+This section **must include** at least one [Response Section][ResourceResponseSection]. In addition to mandatory nested section this section **may include** following additional nested sections:
+ 
+* [Parameters Section][ResourceParametersSection]
+* [Request Section][ResourceRequestSection], if a HTTP Request Method is specified
+* [Response Section][ResourceResponseSection], if a HTTP Request Method is specified
+* [Headers Section][ResourceHeadersSection]
 
 One [Resource Section][ResourceSection] can contain **one or more different** Method Sections.
 
@@ -246,11 +267,6 @@ Example:
 	## PUT
 	...
 
-
-If provided, the relevant [Request][ResourceRequestSection] and [Response][ResourceResponseSection] sections must be nested under this section.
-
-This section may include nested [Headers Section][ResourceHeadersSection].
-
 #### 4.3.3. Request Section [ResourceRequestSection]
 **Optional**. Description of exactly *one* [HTTP request](http://www.w3.org/TR/di-gloss/#def-http-request).
 
@@ -260,9 +276,7 @@ Full Request section header syntax is as follows:
 
 	# Request [<identifier>] [(<Media Type>)]
 
-This section **must** be nested under a [Method Section][ResourceMethodSection] unless a HTTP method is specified in the [Resource Sections][ResourceSection]'s header. In that case this section **must** be nested under the [Resource Section][ResourceSection].
-
-This section is a specific type of [Payload][Payloads] carried by this request. See [Payloads Documentation][Payloads] for details on how to specify the content of this request.
+This section is a specific type of [Payload][Payloads] carried by this request. See [Payloads Documentation][Payloads] for details on how to specify the content of this section.
 
 One [Resource Section][ResourceSection] or [Method Section][ResourceMethodSection] can contain **one or more different** (that is with different identifier) Request Sections.
 
@@ -287,7 +301,7 @@ Full Response section header syntax is as follows:
 
 This section **must** be nested under a [Method Section][ResourceMethodSection] unless a HTTP method is specified in the [Resource Section][ResourceSection]'s header. In that case this section must be nested under the [Resource Section][ResourceSection].
 
-This section is a specific type of [Payload][Payloads] carried by this response. See [Payload Documentation][Payloads] for details on how to specify the content of this response.
+This section is a specific type of [Payload][Payloads] carried by this response. See [Payload Documentation][Payloads] for details on how to specify the content of this section.
 
 One [Resource Section][ResourceSection] or [Method Section][ResourceMethodSection] can contain **one or more different** (that is with different HTTP Status code) Response Sections.
 
@@ -299,7 +313,7 @@ Example:
 #### 4.3.5. Headers Section [ResourceHeadersSection]
 **Optional**. Description HTTP Headers parameters. Content of this section is subject to additional formatting.
 
-This section is **recognized** by the **"Headers"** reserved **keyword** written in an atx-style Markdown header. Optionally the **"Headers"** keyword can be preceded by either response or request header keyword syntax excluding media type.
+This section is **recognized** by the **"Headers"** reserved **keyword** written in an atx-style Markdown header. Optionally the **"Headers"** keyword can be preceded by either `Response` or `Request` header keyword.
 
 Full Header section header syntax is as follows:
 
@@ -317,8 +331,8 @@ Based on where is this sections is nested the headers are expected or send as fo
 
 Based on keywords preceding the **"Headers"** keyword the headers are expected or send as follows:
 
-* **Request** keyword: Headers are expected only for specified request.
-* **Response** keyword: Headers are send only for specified response.
+* **Request** keyword: Headers are expected only with requests.
+* **Response** keyword: Headers are send only with responses.
 
 The section is formatted as an Markdown's [Pre-formatted code blocks](http://daringfireball.net/projects/markdown/syntax#precode) with following syntax:
 
@@ -326,7 +340,7 @@ The section is formatted as an Markdown's [Pre-formatted code blocks](http://dar
 
 One HTTP header per line.
 
-If a Media Type is specified in payload's header it is also send as a `Content-Type` header of this response.
+This section **does not include** any **other sections**.
 
 Example:
 
@@ -348,6 +362,8 @@ Resource sections can be grouped together. For example by a common task such as 
 To group resources simply [nest][NestedSections] your resource section(s) under an atx-style Markdown header of a group's name.
 
 This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent group description.
+
+Group **must include** at least one [Resource Section][ResourceSection].
 
 Example:
 
@@ -380,9 +396,14 @@ Payload section header syntax is follows:
 
 	# <Payload Identifier> (<Media Type>)
 
-Content of a payload is formed from up to four *nested* sections: **Headers** Section, **Parameters** Section, **Body** Section and **Schema** section.
+Payload is formed from following **optional** *nested* sections: 
 
-If **no section** is specified content of the payload section is treated as [PayloadBodySection][PayloadBodySection].
+* [Headers Section][PayloadHeadersSection]
+* [Parameters Section][PayloadParametersSection]
+* [Body Section][PayloadBodySection]
+* [Schema Section][PayloadSchemaSection]
+
+If **no section** is specified content of the payload section is treated as a [Body Section][PayloadBodySection].
 
 Example:
 
@@ -420,7 +441,8 @@ This section is **recognized** by the **"Parameters"** reserved **keyword** writ
 
 This section can contain **further Markdown-formatted content**. If a content is provided it is considered to represent general payload parameters description. The rest of this section is formatted as follows:
 
-	+ <parameter name> [= <default value>] [(<type>)] ... Markdown-formatted content
+	+ <parameter name> [= <default value>] [<type> [,(required | optional)]] ... Markdown-formatted content
+
 
 Where `<parameter name>` is name of a [body][PayloadBodySection] top-level field. To access the elements of an array and to access the fields of a subdocument use [MongoDB Dot Notation](http://docs.mongodb.org/manual/core/document/#dot-notation).
 
@@ -442,6 +464,8 @@ This section is **recognized** by the **"Body"** reserved **keyword** written in
 
 This section represents an API Blueprint Document [Asset][DocumentAssets].
 
+This section **does not include** any **other sections**.
+
 Example:
 
 	# MyPayload (application/json)
@@ -460,6 +484,8 @@ Example:
 This section is **recognized** by the **"Schema"** reserved **keyword** written in an atx-style Markdown header.
 
 This section represents an API Blueprint Document [Asset][DocumentAssets].
+
+This section **does not include** any **other sections**.
 
 ---
 
