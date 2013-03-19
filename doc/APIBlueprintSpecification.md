@@ -44,9 +44,9 @@ Note that it is not in scope of this document to discuss any of the Apiary.io to
 ---
 
 ## 2. API Blueprint Language [Language]
-API Blueprint Language is essentially [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown), a superset of John Gruber's [Markdown](http://daringfireball.net/projects/markdown), where some constructs have **strictly defined meaning**. It inherits few major [MultiMarkdown](http://fletcherpenney.net/multimarkdown) features extending Markdown's referencing and MultiMarkdown's cross-referencing.
+API Blueprint Language is essentially a superset of John Gruber's [Markdown](http://daringfireball.net/projects/markdown), where some constructs have **strictly defined meaning**. It inherits few major [MultiMarkdown](http://fletcherpenney.net/multimarkdown) and [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown) features.
 
-Before you will proceed with this document please make yourself familiar with the basic [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax) as well as with the Metadata and Automatic Cross-References sections of [MultiMarkdown Syntax](https://github.com/fletcher/MultiMarkdown/blob/master/Documentation/MultiMarkdown%20User%27s%20Guide.md#multimarkdown-syntax-guide) and GitHub Flavored Markdown [differences](https://help.github.com/articles/github-flavored-markdown) from traditional Markdown.
+Before you will proceed with this document please make yourself familiar with the basic [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax) as well as with the Metadata and Automatic Cross-References sections of [MultiMarkdown Syntax](https://github.com/fletcher/MultiMarkdown/blob/master/Documentation/MultiMarkdown%20User%27s%20Guide.md#multimarkdown-syntax-guide) and GitHub Flavored Markdown's [newlines & fenced code blocks](https://help.github.com/articles/github-flavored-markdown).
 
 The **API Blueprint Language** is using selected **Markdown constructs**, such as headers, lists or pre-formatted blocks, to **define** and **describe** your **API**. These constructs are usually recognized by reserved names, expected formatting and / or by their specific locations.
 
