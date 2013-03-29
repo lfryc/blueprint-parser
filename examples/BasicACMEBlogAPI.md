@@ -8,96 +8,106 @@ Welcome to the **ACME Blog** API. This API provides access to the **ACME Blog** 
 # GET /posts{/id}
 Retrieves **ACME Blog** posts.
 
-## Parameters
-+ id = 1234 (number) ... Id of a post to retrieve. If there is no id specified all **ACME Blog** posts are returned.
++ Parameters
+	+ id = 1234 (number) ... Id of a post to retrieve. If there is no id specified all **ACME Blog** posts are returned.
 
-## Response Headers
-	X-ACME-API-Ver: 1
++ Response Headers
+	
+        X-ACME-API-Ver: 1
 
-## Response 200 (application/json)
-Array of **ACME Blog** posts. Might contain just one item if there is a valid @id specified. Null if there are no posts.
++ Response 200 (application/json)
 
-### Parameters
-+ author (string) ... Name of **ACME Blog** author.
-+ title (string) ... Title of the blog post.
-+ body (string) ... Blog post body.
+	Array of **ACME Blog** posts. Might contain just one item if there is a valid @id specified. Null if there are no posts.
 
-### Body
-	[
-		{
-		    "_id" : "1234",
-		    "author" : "Jakub Nesetril",
-		    "body" : "This is a blog entry",
-		    "title" : "This is a blog post title",
-		    "comments" : [
-		    	{
-		            "body" : "This is my comment",
-		            "author" : "Jakub Nesetril"
-		        },
-		        {
-		            "body" : "Give me liberty or give me death.",
-		            "author" : "Jan Moravec"
-		        }
-		    ],
-		    "date" : "2012-11-10T06:42:55.733Z"
-		}
-	]
+	+ Parameters
+    	+ author (string) ... Name of **ACME Blog** author.
+        + title (string) ... Title of the blog post.
+        + body (string) ... Blog post body.
+
+    + Body
+
+        	[
+        		{
+        		    "_id" : "1234",
+        		    "author" : "Jakub Nesetril",
+        		    "body" : "This is a blog entry",
+        		    "title" : "This is a blog post title",
+        		    "comments" : [
+        		    	{
+        		            "body" : "This is my comment",
+        		            "author" : "Jakub Nesetril"
+        		        },
+        		        {
+        		            "body" : "Give me liberty or give me death.",
+        		            "author" : "Jan Moravec"
+        		        }
+        		    ],
+        		    "date" : "2012-11-10T06:42:55.733Z"
+        		}
+        	]
 
 
 # PUT /posts
 Creates a new **ACME Blog** posts. Post can be created either as a copy of an existing post or as a completely new post submitting its body, title and author.
 
-## Request Duplicate (application/json)
++ Request Duplicate (application/json)
 
-### Parameters
-+ source_id (number) ... Id of an existing post to be duplicated.
++ Parameters
+    + source_id (number) ... Id of an existing post to be duplicated.
 
-### Body
-	{ source_id : 1234 }
++ Body
+	
+        { source_id : 1234 }
 
-## Request New Post (application/json)
-	{
-	    "author" : "Jakub Nesetril",
-	    "body" : "This is a blog entry",
-	    "title" : "This is a blog post title"
-	}
++ Request New Post (application/json)
+    
+    	{
+    	    "author" : "Jakub Nesetril",
+    	    "body" : "This is a blog entry",
+    	    "title" : "This is a blog post title"
+    	}
 
-## Response Headers
-	X-ACME-API-Ver: 1
++ Response Headers
 
-## Response 201 (application/json)
-	{ "message" : "created" }
+    	X-ACME-API-Ver: 1
+
++ Response 201 (application/json)
+    
+    	{ "message" : "created" }
 
 
 # /posts/{id}/comments
 Comments for **ACME Blog** post of a given @id.
 
-## Parameters
-+ id = 1234 (number) ... Id of a **ACME Blog** post.
++ Parameters
+    + id = 1234 (number) ... Id of a **ACME Blog** post.
 
 ## GET
 Retrieves all comments for the given post.
 
-### Response 200 (application/json)
-	[
-		{
-			"body" : "This is my comment",
-			"author" : "Jakub Nesetril"
-		},
-		{
-			"body" : "Give me liberty or give me death.",
-			"author" : "Jan Moravec"
-		}
-	]
++ Response 200 (application/json)
+
+    	[
+    		{
+    			"body" : "This is my comment",
+    			"author" : "Jakub Nesetril"
+    		},
+    		{
+    			"body" : "Give me liberty or give me death.",
+    			"author" : "Jan Moravec"
+    		}
+    	]
 
 ## PUT
 Creates new comment on the given post.
 
-### Request (application/json)
-	{
-		"body" : "This is my comment",
-		"author" : "Jakub Nesetril"
-	}
++ Request (application/json)
+    
+    	{
+    		"body" : "This is my comment",
+    		"author" : "Jakub Nesetril"
+    	}
 
 ### Response 201 (application/json)
-	{ "message" : "created" }
+
+    	{ "message" : "created" }
