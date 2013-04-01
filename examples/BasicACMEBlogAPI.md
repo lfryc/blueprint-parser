@@ -52,12 +52,12 @@ Creates a new **ACME Blog** posts. Post can be created either as a copy of an ex
 
 + Request Duplicate (application/json)
 
-+ Parameters
-    + source_id (number) ... Id of an existing post to be duplicated.
+    + Parameters
+        + source_id (number) ... Id of an existing post to be duplicated.
 
-+ Body
+    + Body
 	
-        { source_id : 1234 }
+            { source_id : 1234 }
 
 + Request New Post (application/json)
     
@@ -108,6 +108,6 @@ Creates new comment on the given post.
     		"author" : "Jakub Nesetril"
     	}
 
-### Response 201 (application/json)
++ Response 201 (application/json)
 
     	{ "message" : "created" }
